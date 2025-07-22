@@ -14,35 +14,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.dev.nathan.projeto.dto.PerfilUsuarioDTO;
-import br.dev.nathan.projeto.service.PerfilUsuarioService;
+import br.dev.nathan.projeto.dto.PermissaoPerfilRecursoDTO;
+import br.dev.nathan.projeto.service.PermissaoPerfilRecursoService;
 
 @RestController
-@RequestMapping(value = "/perfil-usuario")
+@RequestMapping(value = "/permissao-perfil-recurso")
 @CrossOrigin
-public class PerfilUsuarioController {
+public class PermissaoPerfilRecursoController {
 	
 	@Autowired
-	private PerfilUsuarioService perfilUsuarioService;
+	private PermissaoPerfilRecursoService permissaoPerfilRecursoService;
 	
 	@GetMapping
-	public List<PerfilUsuarioDTO> listarTodos() {
-		return perfilUsuarioService.listarTodos();
+	public List<PermissaoPerfilRecursoDTO> listarTodos() {
+		return permissaoPerfilRecursoService.listarTodos();
 	}
 	
 	@PostMapping
-	public void inserir(@RequestBody PerfilUsuarioDTO perfilUsuario) {
-		perfilUsuarioService.inserir(perfilUsuario);
+	public void inserir(@RequestBody PermissaoPerfilRecursoDTO permissaoPerfilRecurso) {
+		permissaoPerfilRecursoService.inserir(permissaoPerfilRecurso);
 	}
 	
 	@PutMapping
-	public PerfilUsuarioDTO alterar(@RequestBody PerfilUsuarioDTO perfilUsuario) {
-		return perfilUsuarioService.alterar(perfilUsuario);
+	public PermissaoPerfilRecursoDTO alterar(@RequestBody PermissaoPerfilRecursoDTO permissaoPerfilRecurso) {
+		return permissaoPerfilRecursoService.alterar(permissaoPerfilRecurso);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
-		perfilUsuarioService.excluir(id);
+		permissaoPerfilRecursoService.excluir(id);
 		return ResponseEntity.ok().build();
 	}
 

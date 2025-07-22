@@ -2,7 +2,7 @@ package br.dev.nathan.projeto.entity;
 
 import org.springframework.beans.BeanUtils;
 
-import br.dev.nathan.projeto.dto.PerfilUsuarioDTO;
+import br.dev.nathan.projeto.dto.PermissaoPerfilRecursoDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,32 +16,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "SYS_PERFIL_USUARIO")
+@Table(name = "SYS_PERMISSAO_PERFIL_RECURSO")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class PerfilUsuarioEntity {
+public class PermissaoPerfilRecursoEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "ID_USUARIO")
-	private UsuarioEntity usuario;
-	
-	@ManyToOne
 	@JoinColumn(name = "ID_PERFIL")
 	private PerfilEntity perfil;
 	
-	public PerfilUsuarioEntity(PerfilUsuarioDTO perfilUsuario) {
-		BeanUtils.copyProperties(perfilUsuario, this);
-		if (perfilUsuario != null && perfilUsuario.getUsuario() != null) {
-			this.usuario = new UsuarioEntity(perfilUsuario.getUsuario());
+	@ManyToOne
+	@JoinColumn(name = "ID_RECURSO")
+	private RecursoEntity recurso;
+	
+	public PermissaoPerfilRecursoEntity(PermissaoPerfilRecursoDTO permissaoPerfilRecurso) {
+		BeanUtils.copyProperties(permissaoPerfilRecurso, this);
+		if (permissaoPerfilRecurso != null && permissaoPerfilRecurso.getPerfil() != null) {
+			this.perfil = new PerfilEntity(permissaoPerfilRecurso.getPerfil());
 		}
-		if (perfilUsuario != null && perfilUsuario.getPerfil() != null) {
-			this.perfil = new PerfilEntity(perfilUsuario.getPerfil());
+		if (permissaoPerfilRecurso != null && permissaoPerfilRecurso.getRecurso() != null) {
+			this.recurso = new RecursoEntity(permissaoPerfilRecurso.getRecurso());
 		}
 	}
 

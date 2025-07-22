@@ -5,11 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.dev.nathan.projeto.dto.PerfilDTO;
 import br.dev.nathan.projeto.dto.PerfilUsuarioDTO;
-import br.dev.nathan.projeto.entity.PerfilEntity;
 import br.dev.nathan.projeto.entity.PerfilUsuarioEntity;
-import br.dev.nathan.projeto.repository.PerfilRepository;
 import br.dev.nathan.projeto.repository.PerfilUsuarioRepository;
 
 @Service
@@ -24,7 +21,8 @@ public class PerfilUsuarioService {
 	}
 	
 	public void inserir(PerfilUsuarioDTO perfilUsuario) {
-		perfilUsuarioRepository.save(new PerfilUsuarioEntity(perfilUsuario));
+		PerfilUsuarioEntity perfilUsuarioEntity = new PerfilUsuarioEntity(perfilUsuario);
+		perfilUsuarioRepository.save(perfilUsuarioEntity);
 	}
 	
 	public PerfilUsuarioDTO alterar(PerfilUsuarioDTO perfilUsuario) {
