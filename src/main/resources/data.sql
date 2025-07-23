@@ -1,4 +1,4 @@
-INSERT INTO SYS_USUARIO (ID, NOME, LOGIN, SENHA, EMAIL) VALUES (1, 'Nathan', 'nathan', '123', 'nathan@gmail.com');
+INSERT INTO SYS_USUARIO (ID, NOME, LOGIN, SENHA, EMAIL, SITUACAO) VALUES (1, 'Nathan', 'nathan', '123', 'nathan@gmail.com', 'ATIVO');
 
 -- É necessario utilizar o comando abaixo para o PostgreSQL poder iniciar corretamente os IDs
 ALTER SEQUENCE SYS_USUARIO_ID_SEQ RESTART WITH 2;
