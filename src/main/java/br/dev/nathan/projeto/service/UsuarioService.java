@@ -3,6 +3,7 @@ package br.dev.nathan.projeto.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.dev.nathan.projeto.ProjetoApplication;
 import br.dev.nathan.projeto.dto.UsuarioDTO;
@@ -18,6 +19,9 @@ public class UsuarioService {
 	// Instanciar de forma automatica essa classe
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
     UsuarioService(ProjetoApplication projetoApplication) {
         this.projetoApplication = projetoApplication;
@@ -30,11 +34,13 @@ public class UsuarioService {
 	
 	public void inserir(UsuarioDTO usuario) {
 		UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+		usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		usuarioRepository.save(usuarioEntity);
 	}
 	
 	public UsuarioDTO alterar(UsuarioDTO usuario) {
 		UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+		usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		return new UsuarioDTO(usuarioRepository.save(usuarioEntity));
 	}
 	
