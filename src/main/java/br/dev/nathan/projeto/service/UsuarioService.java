@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.dev.nathan.projeto.ProjetoApplication;
+import br.dev.nathan.projeto.controller.AuthController;
 import br.dev.nathan.projeto.dto.UsuarioDTO;
 import br.dev.nathan.projeto.entity.UsuarioEntity;
 import br.dev.nathan.projeto.entity.UsuarioVerificadorEntity;
@@ -19,8 +20,6 @@ import br.dev.nathan.projeto.repository.UsuarioVerificadorRepository;
 // Vai falar para o Spring que essa é a camada Service, então ele pode continuar o que está fazendo
 @Service
 public class UsuarioService {
-
-    private final ProjetoApplication projetoApplication;
 	
 	// Instanciar de forma automatica essa classe
 	@Autowired
@@ -34,10 +33,6 @@ public class UsuarioService {
 	
 	@Autowired
 	private EmailService emailService;
-
-    UsuarioService(ProjetoApplication projetoApplication) {
-        this.projetoApplication = projetoApplication;
-    }
 	
 	public List<UsuarioDTO> listarTodos() {
 		List<UsuarioEntity> usuarios = usuarioRepository.findAll();
@@ -69,6 +64,29 @@ public class UsuarioService {
 				"Novo usuário cadastrado", 
 				"Você está recebendo um email de cadastro, o número de validação é " + verificador.getUuid());
 		
+	}
+	
+	public String verificarCadastro(String uuid) {
+		
+		UsuarioVerificadorEntity usuarioVerificacao = usuarioVerificadorRepository.findByUuid(UUID.fromString(uuid)).get();
+		
+		if (usuarioVerificacao != null) {
+			
+			if (usuarioVerificacao.getDataExpiracao().compareTo(Instant.now()) >= 0) {
+				
+				UsuarioEntity u = usuarioVerificacao.getUsuario();
+				u.setSituacao(TipoSituacaoUsuario.ATIVO);
+				
+				usuarioRepository.save(u);
+				
+				return "Usuario verificado";
+			} else {
+				usuarioVerificadorRepository.delete(usuarioVerificacao);
+				return "Tempo de verificação expirado";
+			}
+		} else {
+			return "Usuario não verificado";
+		}
 	}
 	
 	public UsuarioDTO alterar(UsuarioDTO usuario) {
